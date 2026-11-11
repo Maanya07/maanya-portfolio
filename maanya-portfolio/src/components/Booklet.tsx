@@ -1,5 +1,6 @@
 import { useId, useState } from 'react'
 import type { BookletPage } from '../data/projects'
+import { Missing } from './Missing'
 import './Booklet.css'
 
 interface BookletProps {
@@ -7,7 +8,7 @@ interface BookletProps {
   pages: BookletPage[]
 }
 
-/** Paper instruction booklet. Give it a `key` per project so it resets to page 1. */
+/** Paper instruction booklet. Give it a `key` per project so it opens on page 1. */
 export function Booklet({ title, pages }: BookletProps) {
   const [index, setIndex] = useState(0)
   const headingId = useId()
@@ -15,31 +16,32 @@ export function Booklet({ title, pages }: BookletProps) {
   const last = pages.length - 1
 
   return (
-    <section className="booklet" aria-labelledby={headingId}>
-      <header className="booklet__cover">
-        <span className="booklet__label">Instructions</span>
+    <section className="booklet" aria-label={`${title} instruction booklet`}>
+      <header className="booklet__bar">
+        <span className="booklet__label">Instruction booklet</span>
         <span className="booklet__title">{title}</span>
       </header>
 
-      <div className="booklet__page" aria-live="polite">
-        <h3 id={headingId} className="booklet__heading">
-          <span className="booklet__step">{index + 1}</span>
-          {page.title}
-        </h3>
-        {page.paragraphs.map((text, i) => (
-          <p key={i}>{text}</p>
-        ))}
-        {page.image ? (
-          <img className="booklet__image" src={page.image} alt={`${title}: ${page.title}`} />
-        ) : (
-          page.placeholder && <div className="booklet__placeholder">{page.placeholder}</div>
-        )}
+      <div className="booklet__page" aria-live="polite" aria-labelledby={headingId}>
+        <span className="booklet__step" aria-hidden="true">
+          {index + 1}
+        </span>
+        <div>
+          <h4 id={headingId} className="booklet__heading">
+            <span className="visually-hidden">Step {index + 1}: </span>
+            {page.title}
+          </h4>
+          {page.paragraphs.map((text) => (
+            <p key={text}>{text}</p>
+          ))}
+          {page.missing && <Missing note={page.missing} />}
+        </div>
       </div>
 
       <nav className="booklet__nav" aria-label={`${title} booklet pages`}>
         <button
           type="button"
-          className="booklet__btn"
+          className="brick-btn brick-btn--sm brick-btn--paper"
           onClick={() => setIndex(index - 1)}
           disabled={index === 0}
         >
@@ -50,7 +52,7 @@ export function Booklet({ title, pages }: BookletProps) {
             <li key={p.title}>
               <button
                 type="button"
-                className="booklet__num"
+                className={`brick-btn brick-btn--sm brick-btn--square ${i === index ? 'brick-btn--blue' : 'brick-btn--paper'}`}
                 aria-current={i === index ? 'step' : undefined}
                 aria-label={`Page ${i + 1}: ${p.title}`}
                 onClick={() => setIndex(i)}
@@ -62,7 +64,7 @@ export function Booklet({ title, pages }: BookletProps) {
         </ol>
         <button
           type="button"
-          className="booklet__btn"
+          className="brick-btn brick-btn--sm brick-btn--paper"
           onClick={() => setIndex(index + 1)}
           disabled={index === last}
         >

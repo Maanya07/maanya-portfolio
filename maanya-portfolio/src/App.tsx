@@ -1,64 +1,89 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { profile } from './data/profile'
 import { projects } from './data/projects'
+import { ProfileCard } from './components/ProfileCard'
+import { Experience } from './components/Experience'
+import { Inventory } from './components/Inventory'
+import { Panel } from './components/Panel'
 import { VendingMachine } from './components/VendingMachine'
-import { Booklet } from './components/Booklet'
-import { BrickArt } from './components/BrickArt'
+import { Kit } from './components/Kit'
+import { Brick } from './components/bricks/Brick'
 import './App.css'
 
+const firstReady = projects.find((p) => p.status === 'ready') ?? projects[0]
+
 function App() {
-  const [selectedId, setSelectedId] = useState<string | null>(null)
-  const project = projects.find((p) => p.id === selectedId) ?? null
+  const [selectedId, setSelectedId] = useState(firstReady.id)
+  const [pressed, setPressed] = useState(false)
+  const kitRef = useRef<HTMLDivElement>(null)
+  const project = projects.find((p) => p.id === selectedId) ?? firstReady
+
+  function select(id: string) {
+    setSelectedId(id)
+    setPressed(true)
+    // On narrow screens the kit sits below the machine, so bring it into view after the drop.
+    if (window.matchMedia('(max-width: 900px)').matches) {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      window.setTimeout(
+        () => kitRef.current?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }),
+        reduce ? 0 : 650,
+      )
+    }
+  }
 
   return (
-    <main className="page">
-      <header className="intro">
-        <h1>Project Kits</h1>
-        <p>Press a slot to get a kit, with the finished build and its instruction booklet.</p>
+    <>
+      <header className="topbar">
+        <div className="topbar__inner">
+          <a className="brand" href="#top">
+            <svg viewBox="0 -6 40 30" aria-hidden="true">
+              <Brick x={0} y={0} w={2} h={3} c="red" />
+            </svg>
+            <span>{profile.name}</span>
+          </a>
+          <nav aria-label="Sections">
+            <ul className="topnav">
+              <li><a href="#experience">Experience</a></li>
+              <li><a href="#projects">Projects</a></li>
+              <li><a href="#skills">Skills</a></li>
+              <li>
+                <a href={profile.links.resume} target="_blank" rel="noreferrer">Résumé</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </header>
 
-      <div className="stage">
-        <VendingMachine projects={projects} selectedId={selectedId} onSelect={setSelectedId} />
+      <main id="top" className="page">
+        <ProfileCard />
+        <Experience />
 
-        {project ? (
-          <article className="kit" key={project.id}>
-            <div className="kit__box">
-              <span className="kit__slot">{project.slot}</span>
-              <BrickArt bricks={project.bricks} label={`Brick model of ${project.name}`} />
+        <Panel id="projects" label="Projects" meta={<span>Press a slot to dispense a kit</span>}>
+          <div className="projects">
+            <VendingMachine projects={projects} selectedId={selectedId} onSelect={select} />
+            <div ref={kitRef} className="projects__kit">
+              <Kit key={project.id} project={project} animate={pressed} />
             </div>
-
-            <div className="kit__summary">
-              <h2>{project.name}</h2>
-              <p className="kit__tagline">{project.tagline}</p>
-              <p>{project.summary}</p>
-              <ul className="kit__tech" aria-label="Built with">
-                {project.tech.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
-              <ul className="kit__links">
-                {project.links.map((l) => (
-                  <li key={l.label}>
-                    {l.url ? (
-                      <a href={l.url} target="_blank" rel="noreferrer">
-                        {l.label} ↗
-                      </a>
-                    ) : (
-                      <span className="kit__soon">{l.label} · coming soon</span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <Booklet title={project.name} pages={project.booklet} />
-          </article>
-        ) : (
-          <div className="kit kit--empty">
-            <p>Your kit will appear here.</p>
           </div>
-        )}
-      </div>
-    </main>
+        </Panel>
+
+        <Inventory />
+      </main>
+
+      <footer className="footer">
+        <div className="footer__inner">
+          <p className="footer__name">{profile.name}</p>
+          <p className="footer__extras">
+            <span>Accessories:</span> {profile.interests.join(' · ')}
+          </p>
+          <ul className="footer__links">
+            <li><a href={profile.links.github} target="_blank" rel="noreferrer">GitHub</a></li>
+            <li><a href={profile.links.linkedin} target="_blank" rel="noreferrer">LinkedIn</a></li>
+            <li><a href={`mailto:${profile.links.email}`}>Email</a></li>
+          </ul>
+        </div>
+      </footer>
+    </>
   )
 }
 

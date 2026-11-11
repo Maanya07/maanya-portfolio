@@ -1,25 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap');
 
+/*
+ * Shared palette: a matte brick set. Every section uses these, and
+ * src/components/bricks/palette.ts mirrors them for the SVG art.
+ *
+ *   sky     cornflower baseplate behind everything
+ *   yellow  profile frame + section header tiles
+ *   red     primary buttons, logo, vending machine controls
+ *   blue    secondary buttons, frames, selected details
+ *   paper   text-heavy surfaces (profile interior, cards, booklet pages)
+ */
 :root {
-  --cream: #fbf5e6;
-  --enamel: #f3e9d2;
-  --enamel-dark: #e2d4b4;
-  --red: #c8342b;
-  --red-dark: #8f201a;
-  --chrome: #b9b4a8;
-  --ink: #2b2420;
-  --ink-soft: #6b5f55;
-  --paper: #fffdf6;
-  --paper-edge: #ece3cf;
-  --blue: #2f6db5;
+  --sky: #86a5d2;
+  --sky-hi: #a0bae0;
+  --sky-lo: #6f8fc0;
+  --sky-face: #8eacd7;
+  --sky-tint: #e4ecf7;
+  --sky-edge: #b8cbe7;
 
-  --font-display: 'Lilita One', 'Arial Rounded MT Bold', system-ui, sans-serif;
-  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --yellow: #ebc24f;
+  --yellow-hi: #f3d477;
+  --yellow-lo: #c9a136;
+  --yellow-inner: #f0cd66;
+
+  --red: #b64138;
+  --red-hi: #c95a51;
+  --red-lo: #8f3029;
+
+  --blue: #3e6098;
+  --blue-hi: #5577ae;
+  --blue-lo: #2f4a78;
+  --blue-inner: #4868a1;
+
+  --paper: #fffcf3;
+  --paper-hi: #ffffff;
+  --paper-lo: #e3e6ea;
+
+  --ink: #222833;
+  --ink-soft: #4e5868;
+  --line: #d5dce6;
+  --line-strong: #aab8cc;
+  --outline: rgba(28, 40, 66, 0.2);
+  --outline-strong: rgba(28, 40, 66, 0.34);
+  --shadow: rgba(24, 42, 80, 0.22);
+
+  --focus: var(--blue-lo);
+  --font: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   color-scheme: light;
-  font-family: var(--font-body);
+  font-family: var(--font);
   color: var(--ink);
-  background: var(--cream);
+  background: var(--sky);
 }
 
 *,
@@ -28,12 +59,36 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 76px;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 1px 1px, rgba(43, 36, 32, 0.08) 1px, transparent 0) 0 0 / 18px 18px,
-    var(--cream);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  /* safety net for decorative pseudo-elements on very narrow phones; clip keeps the sticky nav working */
+  overflow-x: clip;
+  /* Cornflower baseplate: each stud is a flat face with a lighter lit edge and a darker shadow edge */
+  background-color: var(--sky);
+  background-image:
+    radial-gradient(circle at 50% 50%, var(--sky-face) 0 5.6px, transparent 6px),
+    radial-gradient(circle at 46% 44%, var(--sky-hi) 0 6.2px, transparent 6.6px),
+    radial-gradient(circle at 56% 58%, var(--sky-lo) 0 6.4px, transparent 6.8px);
+  background-size: 24px 24px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 .visually-hidden {
@@ -43,4 +98,317 @@ body {
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
+}
+
+/* ---------- Studs along the top edge (flat face, thin lit edge, soft shaded edge) ---------- */
+.studs::before,
+.panel::before,
+.panel__tag::before,
+.brick-btn::before {
+  content: '';
+  position: absolute;
+  left: var(--studs-inset, 12px);
+  right: var(--studs-inset, 12px);
+  top: -5px;
+  height: 5px;
+  pointer-events: none;
+  background: linear-gradient(
+      90deg,
+      transparent 0 4px,
+      var(--stud-hi) 4px 5.5px,
+      var(--stud) 5.5px 14px,
+      var(--stud-lo) 14px 16px,
+      transparent 16px
+    )
+    0 0 / 20px 100% space;
+  filter: drop-shadow(0 0 0.5px var(--outline-strong));
+}
+
+.studs {
+  position: relative;
+}
+
+/* ---------- Framed panel: colored outer plate > lighter inner plate > paper board ---------- */
+.panel {
+  --frame: var(--blue);
+  --frame-hi: var(--blue-hi);
+  --frame-lo: var(--blue-lo);
+  --frame-inner: var(--blue-inner);
+  --frame-ink: #ffffff;
+  --tag: var(--yellow);
+  --tag-hi: var(--yellow-hi);
+  --tag-lo: var(--yellow-lo);
+  --tag-ink: var(--ink);
+  --stud: var(--frame);
+  --stud-hi: var(--frame-hi);
+  --stud-lo: var(--frame-lo);
+  --studs-inset: 16px;
+  --focus: var(--yellow);
+  position: relative;
+  margin-top: 5px;
+  padding: 7px;
+  border-radius: 6px;
+  background: var(--frame);
+  box-shadow:
+    inset 0 1px 0 var(--frame-hi),
+    0 0 0 1px var(--outline-strong),
+    0 4px 0 var(--frame-lo),
+    0 4px 0 1px var(--outline-strong),
+    0 16px 26px -14px var(--shadow);
+}
+
+.panel--yellow {
+  --frame: var(--yellow);
+  --frame-hi: var(--yellow-hi);
+  --frame-lo: var(--yellow-lo);
+  --frame-inner: var(--yellow-inner);
+  --frame-ink: var(--ink);
+  --tag: var(--blue);
+  --tag-hi: var(--blue-hi);
+  --tag-lo: var(--blue-lo);
+  --tag-ink: #ffffff;
+  --focus: var(--blue-lo);
+}
+
+.panel__inner {
+  background: var(--frame-inner);
+  border-radius: 3px;
+  padding: 8px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), inset 0 -2px 0 var(--frame-lo), 0 0 0 1px var(--outline);
+}
+
+.panel__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 4px 14px;
+}
+
+/* the section's name, as a brick tile */
+.panel__tag {
+  --stud: var(--tag);
+  --stud-hi: var(--tag-hi);
+  --stud-lo: var(--tag-lo);
+  --studs-inset: 10px;
+  position: relative;
+  margin: 0;
+  display: inline-block;
+  padding: 8px 18px 7px;
+  border-radius: 3px;
+  background: var(--tag);
+  color: var(--tag-ink);
+  font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+  font-weight: 750;
+  font-stretch: 104%;
+  line-height: 1.15;
+  box-shadow:
+    inset 0 1px 0 var(--tag-hi),
+    0 0 0 1px var(--outline-strong),
+    0 3px 0 var(--tag-lo),
+    0 3px 0 1px var(--outline-strong);
+}
+
+.panel__meta {
+  font-size: 0.88rem;
+  font-weight: 650;
+  color: var(--frame-ink);
+  text-align: right;
+}
+
+.panel__board {
+  --focus: var(--blue-lo);
+  background: var(--paper);
+  border-radius: 2px;
+  padding: clamp(16px, 3vw, 28px);
+  box-shadow: inset 0 0 0 1px var(--outline);
+}
+
+/* ---------- Brick buttons: solid color, thin top highlight, soft side face ---------- */
+.brick-btn {
+  --b: var(--red);
+  --b-hi: var(--red-hi);
+  --b-lo: var(--red-lo);
+  --b-ink: #ffffff;
+  /* hover goes slightly deeper so white text keeps its contrast */
+  --b-hover: #a3382f;
+  --stud: var(--b);
+  --stud-hi: var(--b-hi);
+  --stud-lo: var(--b-lo);
+  --studs-inset: 8px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  margin-top: 5px;
+  padding: 9px 14px 8px;
+  border: 0;
+  border-radius: 3px;
+  background: var(--b);
+  color: var(--b-ink);
+  font: 700 0.95rem/1.15 var(--font);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 var(--b-hi),
+    0 0 0 1px var(--outline-strong),
+    0 3px 0 var(--b-lo),
+    0 3px 0 1px var(--outline-strong),
+    0 8px 12px -8px var(--shadow);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background-color 0.15s;
+}
+
+.brick-btn:hover:not(:disabled) {
+  background: var(--b-hover);
+}
+
+.brick-btn:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 1px 0 var(--b-hi),
+    0 0 0 1px var(--outline-strong),
+    0 1px 0 var(--b-lo),
+    0 1px 0 1px var(--outline-strong);
+}
+
+.brick-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.brick-btn--blue {
+  --b: var(--blue);
+  --b-hi: var(--blue-hi);
+  --b-lo: var(--blue-lo);
+  --b-hover: #36568a;
+}
+
+.brick-btn--paper {
+  --b: var(--paper-hi);
+  --b-hi: #ffffff;
+  --b-lo: var(--line-strong);
+  --b-ink: var(--ink);
+  --b-hover: var(--sky-tint);
+}
+
+.brick-btn--sm {
+  min-height: 36px;
+  padding: 6px 12px 5px;
+  font-size: 0.85rem;
+}
+
+.brick-btn--square {
+  width: 38px;
+  justify-content: center;
+  padding-inline: 0;
+}
+
+.brick-btn__glyph {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.42);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.brick-btn__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.brick-btn__label {
+  font-weight: 750;
+}
+
+.brick-btn__detail {
+  font-size: 0.74rem;
+  font-weight: 500;
+  opacity: 0.9;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Instruction-manual callouts and part chips ---------- */
+.callout {
+  background: var(--sky-tint);
+  border-radius: 6px;
+  padding: 12px 14px 14px;
+  box-shadow: inset 0 0 0 1px var(--sky-edge);
+}
+
+.callout__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 6px;
+}
+
+.chips li {
+  background: var(--paper-hi);
+  border-radius: 3px;
+  padding: 3px 8px;
+  font-size: 0.84rem;
+  font-weight: 550;
+  box-shadow: 0 0 0 1px var(--outline), 0 2px 0 var(--sky-edge);
+}
+
+.chips li::before {
+  content: '1×';
+  margin-right: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--blue);
+}
+
+.swatch {
+  flex: none;
+  width: 18px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--sw);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -2px 0 rgba(0, 0, 0, 0.12), 0 0 0 1px var(--outline-strong);
+}
+
+.swatch--red { --sw: var(--red); }
+.swatch--blue { --sw: var(--blue); }
+.swatch--yellow { --sw: var(--yellow); }
+.swatch--white { --sw: var(--paper-hi); }
+.swatch--darkGray { --sw: #5e6673; }
+.swatch--lightGray { --sw: var(--sky); }
+
+/* ---------- Missing content ---------- */
+.missing {
+  margin: 8px 0 0;
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.missing--dev {
+  font-style: normal;
+  font-weight: 650;
+  color: #4a3500;
+  background: repeating-linear-gradient(135deg, #fbe7a6 0 10px, #f6dc8a 10px 20px);
+  border: 1.5px dashed var(--yellow-lo);
+  border-radius: 3px;
+  padding: 6px 10px;
 }

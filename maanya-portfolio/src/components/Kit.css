@@ -1,0 +1,129 @@
+.kit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 26px;
+}
+
+.kit--animate {
+  animation: kit-in 0.35s ease-out 0.55s both;
+}
+
+@keyframes kit-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.kit__top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+
+@media (max-width: 1040px) and (min-width: 901px), (max-width: 620px) {
+  .kit__top {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Set box: kit-colored packaging, illustration window, footer strip */
+.boxart {
+  margin: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--box);
+  color: var(--box-ink);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 0 0 1px var(--outline-strong),
+    0 4px 0 var(--box-dark),
+    0 4px 0 1px var(--outline-strong),
+    0 12px 18px -10px var(--shadow);
+}
+
+.boxart__band {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+}
+
+/* paper kit label: readable on every box color */
+.boxart__code {
+  flex: none;
+  padding: 3px 8px 2px;
+  border-radius: 3px;
+  background: var(--paper-hi);
+  color: var(--ink);
+  font-weight: 750;
+  box-shadow: inset 0 -2px 0 var(--line), 0 0 0 1px var(--outline-strong);
+}
+
+.boxart__name {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.boxart__stage {
+  margin: 0 8px;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--outline-strong);
+}
+
+.boxart__stage svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.boxart__foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 10px 9px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.kit__kicker {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 650;
+  color: var(--red);
+}
+
+.kit__name {
+  margin: 2px 0 2px;
+  font-size: 1.6rem;
+  font-weight: 750;
+  line-height: 1.15;
+}
+
+.kit__subtitle {
+  margin: 0 0 10px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.kit__summary {
+  margin: 0 0 16px;
+  line-height: 1.55;
+}
+
+.kit__links {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.kit__soon {
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+}

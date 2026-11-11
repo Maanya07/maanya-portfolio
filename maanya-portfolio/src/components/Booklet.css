@@ -1,149 +1,114 @@
+/* Paper-white booklet with a couple of stacked pages behind it */
 .booklet {
+  position: relative;
+  margin-right: 5px;
+  border-radius: 2px 5px 5px 2px;
   background: var(--paper);
-  border-radius: 4px 10px 10px 4px;
-  border-left: 8px solid var(--paper-edge);
   box-shadow:
-    3px 3px 0 var(--paper-edge),
-    6px 6px 0 #e4dac4,
-    0 10px 20px rgba(43, 36, 32, 0.18);
-  color: var(--ink);
-  overflow: hidden;
+    0 0 0 1px var(--outline),
+    3px 3px 0 var(--paper-hi),
+    3px 3px 0 1px var(--outline),
+    5px 5px 0 var(--sky-tint),
+    5px 5px 0 1px var(--outline),
+    0 14px 20px -12px var(--shadow);
 }
 
-.booklet__cover {
+/* stapled spine */
+.booklet::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 14px;
+  background: linear-gradient(90deg, rgba(28, 40, 66, 0.1), transparent);
+}
+
+.booklet__bar {
   display: flex;
-  align-items: baseline;
   justify-content: space-between;
-  gap: 8px;
-  padding: 10px 16px;
-  border-bottom: 2px dashed var(--paper-edge);
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px 9px 26px;
+  border-bottom: 2px solid var(--blue);
 }
 
 .booklet__label {
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 0.86rem;
+  font-weight: 650;
   color: var(--red);
-  font-weight: 700;
 }
 
 .booklet__title {
-  font-size: 0.85rem;
+  font-size: 0.86rem;
+  font-weight: 600;
   color: var(--ink-soft);
+  text-align: right;
 }
 
 .booklet__page {
-  padding: 16px 18px 8px;
-  min-height: 190px;
-  background-image: repeating-linear-gradient(
-    transparent 0 27px,
-    rgba(47, 109, 181, 0.08) 27px 28px
-  );
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 14px;
+  min-height: 170px;
+  padding: 18px 22px 8px 26px;
+}
+
+/* manual-style big step number */
+.booklet__step {
+  font-size: 3rem;
+  font-weight: 750;
+  line-height: 0.95;
+  color: var(--blue);
 }
 
 .booklet__heading {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0 0 10px;
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 400;
-}
-
-.booklet__step {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 3px solid var(--ink);
-  font-size: 1rem;
+  margin: 4px 0 8px;
+  font-size: 1.12rem;
+  font-weight: 700;
 }
 
 .booklet__page p {
-  margin: 0 0 10px;
+  margin: 0 0 9px;
+  font-size: 0.95rem;
   line-height: 1.55;
-}
-
-.booklet__placeholder {
-  margin: 8px 0;
-  padding: 26px 12px;
-  border: 2px dashed var(--ink-soft);
-  border-radius: 6px;
-  text-align: center;
-  font-size: 0.85rem;
-  color: var(--ink-soft);
-}
-
-.booklet__image {
-  display: block;
-  max-width: 100%;
-  border-radius: 6px;
-  margin: 8px 0;
 }
 
 .booklet__nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  padding: 10px 14px 14px;
+  gap: 10px;
+  padding: 10px 20px 16px 26px;
+  border-top: 1px dashed var(--line);
 }
 
 .booklet__pages {
   list-style: none;
   display: flex;
-  gap: 6px;
+  gap: 8px;
   margin: 0;
   padding: 0;
 }
 
-.booklet__btn,
-.booklet__num {
-  font: inherit;
-  font-weight: 700;
-  color: var(--ink);
-  background: var(--cream);
-  border: 2px solid var(--ink);
-  border-radius: 8px;
-  box-shadow: 0 3px 0 var(--ink);
-  cursor: pointer;
-  transition: transform 0.08s, box-shadow 0.08s;
-}
+@media (max-width: 420px) {
+  .booklet__page {
+    grid-template-columns: 38px minmax(0, 1fr);
+    padding-right: 16px;
+  }
 
-.booklet__btn {
-  padding: 6px 12px;
-  font-size: 0.9rem;
-}
+  .booklet__step {
+    font-size: 2.3rem;
+  }
 
-.booklet__num {
-  width: 36px;
-  height: 36px;
-  font-family: var(--font-display);
-  font-weight: 400;
-}
+  .booklet__nav {
+    gap: 6px;
+    padding: 10px 12px 14px 20px;
+  }
 
-.booklet__num[aria-current='step'] {
-  background: var(--red);
-  border-color: var(--red-dark);
-  box-shadow: 0 3px 0 var(--red-dark);
-  color: var(--cream);
-}
+  .booklet__nav > .brick-btn {
+    padding-inline: 9px;
+  }
 
-.booklet__btn:active:not(:disabled),
-.booklet__num:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 var(--ink);
-}
-
-.booklet__btn:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-
-.booklet__btn:focus-visible,
-.booklet__num:focus-visible {
-  outline: 3px solid var(--blue);
-  outline-offset: 2px;
+  .booklet__pages {
+    gap: 5px;
+  }
 }

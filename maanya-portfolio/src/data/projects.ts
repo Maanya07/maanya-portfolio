@@ -1,155 +1,133 @@
-// All portfolio content lives here. Edit a project, or add one to the
-// `projects` array, and the vending machine + kit update automatically.
+// Every kit in the vending machine.
+// Sources: résumé (October 2026), plus the local repos ~/Jag-AI and ~/jarvis_local where noted.
+//
+// To add a project: copy an entry, give it a new `id` and `slot`, fill in the fields.
+// Anything unconfirmed is marked with `missing` (shown as a note in `npm run dev`,
+// "Details coming soon" in the built site). Nothing here is invented.
+//
+// MISSING / TO CONFIRM  (search this file for "MISSING")
+// - Links: none are set. Jag AI and Jarvis have GitHub remotes (noted inline); add the URL only if the repo is public.
+// - "The Idea" (why you built it) for every project, and outcomes for Jag AI, Jarvis, Finance Tracker.
+// - Jarvis: not on the résumé. Details come from brain.py; dates are from commit history (confirm).
+// - GameNite and Solar Storm Classifier: not on the résumé and no repo found: no summary, dates, or stack yet.
 
-export type BrickColor =
-  | 'red'
-  | 'yellow'
-  | 'blue'
-  | 'green'
-  | 'orange'
-  | 'white'
-  | 'gray'
-  | 'dark'
-
-/** One brick in the illustration. Grid is 10 studs wide x 6 rows tall; y=0 is the top row. */
-export interface Brick {
-  x: number
-  y: number
-  /** width in studs */
-  w: number
-  color: BrickColor
-}
+import type { BrickColor } from '../components/bricks/palette'
+import type { SceneKey } from '../components/bricks/scenes'
 
 export interface BookletPage {
   title: string
   paragraphs: string[]
-  /** Shown as a dashed placeholder box (e.g. until you have a screenshot). */
-  placeholder?: string
-  /** Optional image path (e.g. '/screens/gamenite.png' in /public). Replaces the placeholder. */
-  image?: string
+  /** What still needs writing on this page. */
+  missing?: string
 }
 
 export interface ProjectLink {
   label: string
-  /** Leave empty ('') to show "coming soon" instead of a link. */
+  /** '' = not available yet */
   url: string
 }
 
 export interface Project {
-  /** Stable id, used as a React key. */
   id: string
-  /** Slot code shown on the machine, e.g. 'A1'. */
+  /** Code on the machine, e.g. 'A1' */
   slot: string
   name: string
-  /** One-line hook shown under the name. */
-  tagline: string
-  /** Short summary, visible as soon as the kit opens. */
-  summary: string
+  /** Shorter name for the machine slot, if `name` is long */
+  shortName?: string
+  subtitle?: string
+  /** 'draft' = shown as "In the workshop" with no write-up */
+  status: 'ready' | 'draft'
+  period: string | null
+  location: string | null
+  /** Visible as soon as the kit opens */
+  summary: string | null
   tech: string[]
-  /** Color of the little box that drops into the tray. */
-  boxColor: string
-  bricks: Brick[]
+  scene: SceneKey
+  sceneLabel: string
+  boxColor: BrickColor
   links: ProjectLink[]
-  /** Exactly the booklet pages, in order: The Idea, What I Built, The Result. */
+  /** The Idea, What I Built, The Result */
   booklet: BookletPage[]
+  missing?: string
 }
 
 export const projects: Project[] = [
   {
-    id: 'gamenite',
+    id: 'jag-ai',
     slot: 'A1',
-    name: 'GameNite',
-    tagline: 'Game night, planned in one place.',
-    // TODO: replace with your real summary
+    name: 'Jag AI',
+    subtitle: 'RAG-based personal assistant',
+    status: 'ready',
+    period: 'Jan 2026 – Present',
+    location: 'Boston, MA',
     summary:
-      'A web app that helps friends pick a date, choose games, and get everyone to show up for game night. [Placeholder summary]',
-    tech: ['[Tech 1]', '[Tech 2]', '[Tech 3]'],
-    boxColor: '#2f6db5',
-    bricks: [
-      { x: 0, y: 5, w: 10, color: 'gray' },
-      { x: 0, y: 4, w: 3, color: 'dark' },
-      { x: 7, y: 4, w: 3, color: 'dark' },
-      { x: 0, y: 3, w: 10, color: 'dark' },
-      { x: 0, y: 2, w: 2, color: 'dark' },
-      { x: 2, y: 2, w: 2, color: 'red' },
-      { x: 4, y: 2, w: 2, color: 'dark' },
-      { x: 6, y: 2, w: 1, color: 'yellow' },
-      { x: 7, y: 2, w: 1, color: 'blue' },
-      { x: 8, y: 2, w: 2, color: 'dark' },
-      { x: 1, y: 1, w: 8, color: 'dark' },
-    ],
-    links: [
-      { label: 'Live demo', url: '' },
-      { label: 'Source code', url: '' },
-    ],
+      'A RAG-based personal assistant that integrates Microsoft 365 data to generate daily email and calendar summaries and support natural-language document search.',
+    // Résumé stack, plus Pinecone, Sentence Transformers, Gemini, and MSAL confirmed in ~/Jag-AI/backend/app.py
+    tech: ['React', 'Flask', 'Python', 'Microsoft Graph API', 'MSAL', 'Pinecone', 'Sentence Transformers', 'Gemini 2.5 Flash'],
+    scene: 'assistant',
+    sceneLabel: 'Brick desk computer showing an email and its summary, next to a desk calendar',
+    boxColor: 'blue',
+    // MISSING: remote is github.com/Maanya07/jag-ai. Paste it into url if the repo is public.
+    links: [{ label: 'Source code', url: '' }],
     booklet: [
       {
         title: 'The Idea',
         paragraphs: [
-          '[Placeholder] What problem were you solving? Who was it for?',
-          '[Placeholder] What made you want to build it?',
+          'Turn Microsoft 365 data into daily email and calendar summaries, and make documents searchable in natural language.',
         ],
+        missing: 'Why you built it and who it is for.',
       },
       {
         title: 'What I Built',
         paragraphs: [
-          '[Placeholder] The main features, and the part you are proudest of.',
-          '[Placeholder] One interesting technical decision or challenge.',
+          'Built a RAG-based personal assistant integrating Microsoft 365 data to generate daily email and calendar summaries and support natural-language document search.',
+          'Implemented OAuth2 authentication and token-refresh logic through Microsoft Graph API to maintain secure, persistent access to personal data.',
+          // From the repo (backend/app.py)
+          'Under the hood, a Flask backend signs in with Microsoft through MSAL, pulls recent Outlook messages from Graph, embeds them with the all-MiniLM-L6-v2 sentence-transformer, and stores the vectors in Pinecone. Questions are answered by Gemini 2.5 Flash, using the closest matches as context.',
         ],
-        placeholder: 'Screenshot coming soon',
       },
       {
         title: 'The Result',
-        paragraphs: [
-          '[Placeholder] Users, numbers, feedback, or what you learned.',
-        ],
+        paragraphs: ['In active development since January 2026.'],
+        missing: 'Outcome, usage, or what you learned; a screenshot.',
       },
     ],
   },
   {
-    id: 'solar-storm',
+    id: 'jarvis',
     slot: 'A2',
-    name: 'Solar Storm Classifier',
-    tagline: 'Sorting space weather before it hits.',
-    // TODO: replace with your real summary
+    name: 'Jarvis',
+    subtitle: 'Local voice assistant',
+    status: 'ready',
+    // From git commit dates in ~/jarvis_local (Mar 12–13, 2026). MISSING: confirm.
+    period: 'Mar 2026',
+    location: null,
     summary:
-      'A machine learning model that classifies solar storm events from space-weather data. [Placeholder summary]',
-    tech: ['[Tech 1]', '[Tech 2]', '[Tech 3]'],
-    boxColor: '#e07b24',
-    bricks: [
-      { x: 0, y: 5, w: 10, color: 'dark' },
-      { x: 1, y: 3, w: 3, color: 'yellow' },
-      { x: 6, y: 3, w: 3, color: 'blue' },
-      { x: 0, y: 2, w: 5, color: 'orange' },
-      { x: 7, y: 2, w: 1, color: 'white' },
-      { x: 0, y: 1, w: 5, color: 'yellow' },
-      { x: 5, y: 1, w: 2, color: 'red' },
-      { x: 1, y: 0, w: 3, color: 'orange' },
-      { x: 7, y: 0, w: 1, color: 'red' },
-    ],
-    links: [
-      { label: 'Notebook', url: '' },
-      { label: 'Source code', url: '' },
-    ],
+      'A voice assistant that runs on the laptop: it listens through the microphone, transcribes speech with Whisper, replies with Llama 3 through Ollama, and answers out loud.',
+    // All confirmed in ~/jarvis_local/brain.py
+    tech: ['Python', 'Whisper', 'Ollama', 'Llama 3', 'SpeechRecognition'],
+    scene: 'voice',
+    sceneLabel: 'Brick studio microphone on a stand, with sound waves and a speech bubble',
+    boxColor: 'sky',
+    // MISSING: remote is github.com/Maanya07/jarvis_local. Paste it into url if the repo is public.
+    links: [{ label: 'Source code', url: '' }],
     booklet: [
       {
         title: 'The Idea',
-        paragraphs: [
-          '[Placeholder] Why classify solar storms? What data did you start with?',
-        ],
+        paragraphs: ['A hands-free assistant with a dry, Jarvis-style personality that keeps its answers to one short sentence.'],
+        missing: 'Why you built it.',
       },
       {
         title: 'What I Built',
         paragraphs: [
-          '[Placeholder] Data prep, model choice, and how you evaluated it.',
+          'A listen, transcribe, think, speak loop in Python: SpeechRecognition captures audio from the microphone, a local Whisper base model transcribes it, Llama 3 through Ollama writes the reply, and the macOS say command speaks it.',
+          'A system prompt sets the persona and the length limit. Listening times out after 5 seconds of silence and caps each phrase at 10 seconds, so background noise does not freeze it. Saying “quit” or “shut down” powers it off.',
         ],
-        placeholder: 'Chart or screenshot coming soon',
       },
       {
         title: 'The Result',
-        paragraphs: [
-          '[Placeholder] Accuracy or other metrics, and what you would try next.',
-        ],
+        paragraphs: [],
+        missing: 'Outcome, a demo clip, or what you learned.',
       },
     ],
   },
@@ -157,50 +135,104 @@ export const projects: Project[] = [
     id: 'finance-tracker',
     slot: 'A3',
     name: 'Personal Finance Tracker',
-    tagline: 'See where the money goes.',
-    // TODO: replace with your real summary
+    shortName: 'Finance Tracker',
+    subtitle: 'Spring Boot REST API',
+    status: 'ready',
+    period: 'Dec 2025 – Feb 2026',
+    location: 'Manila, Philippines',
     summary:
-      'An app for logging spending, setting budgets, and seeing trends over time. [Placeholder summary]',
-    tech: ['[Tech 1]', '[Tech 2]', '[Tech 3]'],
-    boxColor: '#3f8f4f',
-    bricks: [
-      { x: 0, y: 5, w: 10, color: 'white' },
-      { x: 1, y: 4, w: 2, color: 'green' },
-      { x: 4, y: 4, w: 2, color: 'green' },
-      { x: 7, y: 4, w: 2, color: 'green' },
-      { x: 1, y: 3, w: 2, color: 'green' },
-      { x: 4, y: 3, w: 2, color: 'green' },
-      { x: 7, y: 3, w: 2, color: 'green' },
-      { x: 4, y: 2, w: 2, color: 'green' },
-      { x: 7, y: 2, w: 2, color: 'green' },
-      { x: 1, y: 2, w: 2, color: 'yellow' },
-      { x: 7, y: 1, w: 2, color: 'green' },
-      { x: 7, y: 0, w: 2, color: 'yellow' },
-    ],
-    links: [
-      { label: 'Live demo', url: '' },
-      { label: 'Source code', url: '' },
-    ],
+      'A Java Spring Boot application exposing RESTful APIs for financial transactions, backed by a normalized PostgreSQL schema.',
+    tech: ['Java', 'Spring Boot', 'PostgreSQL', 'REST APIs'],
+    scene: 'register',
+    sceneLabel: 'Brick cash register printing a receipt, beside a stack of coins',
+    boxColor: 'yellow',
+    links: [{ label: 'Source code', url: '' }], // MISSING: repo URL (no local repo found)
     booklet: [
       {
         title: 'The Idea',
-        paragraphs: [
-          '[Placeholder] What frustrated you about tracking money before?',
-        ],
+        paragraphs: ['A backend for recording and managing financial transactions through a REST API.'],
+        missing: 'Why you built it.',
       },
       {
         title: 'What I Built',
         paragraphs: [
-          '[Placeholder] Key features: categories, budgets, charts, and so on.',
+          'Developed a Java Spring Boot application exposing RESTful APIs, supporting full CRUD operations with Spring Data JPA.',
+          'Designed a normalized PostgreSQL schema with indexed queries and validation rules; separated application logic using a Controller-Service-Repository architecture.',
         ],
-        placeholder: 'Screenshot coming soon',
       },
       {
         title: 'The Result',
-        paragraphs: [
-          '[Placeholder] How you or others use it, and what you learned.',
-        ],
+        paragraphs: ['Handles 300+ financial transactions with full CRUD support.'],
+        missing: 'What you learned; a screenshot or API example.',
       },
     ],
+  },
+  {
+    id: 'nba-stats',
+    slot: 'B1',
+    name: 'NBA Stat Models',
+    subtitle: 'Playmaking Analytics',
+    status: 'ready',
+    period: 'Nov 2025 – Dec 2025',
+    location: 'Boston, MA',
+    summary:
+      'An analysis of 54 years of NBA season data, using assist-to-turnover metrics to evaluate generational changes in playmaking efficiency.',
+    tech: ['Python', 'Pandas', 'scikit-learn'],
+    scene: 'hoop',
+    sceneLabel: 'Brick basketball hoop and ball beside a rising bar chart',
+    boxColor: 'red',
+    links: [{ label: 'Notebook', url: '' }], // MISSING: repo or notebook URL (no local repo found)
+    booklet: [
+      {
+        title: 'The Idea',
+        paragraphs: ['Evaluate how playmaking efficiency has changed across generations of NBA play.'],
+        missing: 'What sparked the question.',
+      },
+      {
+        title: 'What I Built',
+        paragraphs: [
+          'Cleaned and normalized 54 years of NBA season data and engineered assist-to-turnover metrics.',
+          'Modeled nonlinear league-wide trends using polynomial regression.',
+        ],
+      },
+      {
+        title: 'The Result',
+        paragraphs: ['The polynomial regression model achieved an R-squared value of 0.54.'],
+        missing: 'Key findings about the trend; a chart.',
+      },
+    ],
+  },
+  {
+    id: 'gamenite',
+    slot: 'B2',
+    name: 'GameNite',
+    status: 'draft',
+    period: null,
+    location: null,
+    summary: null,
+    tech: [],
+    scene: 'gameTable',
+    sceneLabel: 'Brick game table with dice, a pawn, and a hand of cards',
+    boxColor: 'green',
+    links: [],
+    booklet: [],
+    missing: 'Not on the résumé: summary, dates, tech stack, links, and booklet pages.',
+  },
+  {
+    id: 'solar-storm',
+    slot: 'B3',
+    name: 'Solar Storm Classifier',
+    shortName: 'Solar Storm',
+    status: 'draft',
+    period: null,
+    location: null,
+    summary: null,
+    tech: [],
+    scene: 'satellite',
+    sceneLabel: 'Brick satellite on a stand, with the sun sending out flares',
+    boxColor: 'orange',
+    links: [],
+    booklet: [],
+    missing: 'Not on the résumé: summary, dates, tech stack, links, and booklet pages.',
   },
 ]
