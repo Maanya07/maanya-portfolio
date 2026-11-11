@@ -1,4 +1,4 @@
-import { useId } from 'react'
+import { useId, type ReactNode } from 'react'
 import { PALETTE, SEAM, type BrickColor } from './bricks/palette'
 
 interface MinifigProps {
@@ -7,12 +7,17 @@ interface MinifigProps {
   legs: BrickColor
   label: string
   className?: string
+  /** Optional parts to attach (used by the Experience station), drawn in this figure's coordinates */
+  accessories?: Partial<Record<MinifigSlot, ReactNode>>
 }
+
+/** Attachment points: tucked under the resting arm, on the torso, in the waving hand, on the head. */
+export type MinifigSlot = 'held' | 'torso' | 'raised' | 'head'
 
 const INK = '#222833'
 
 /** Placeholder minifigure portrait: slight head tilt and a little wave. Colors come from src/data/profile.ts. */
-export function Minifig({ hair, torso, legs, label, className }: MinifigProps) {
+export function Minifig({ hair, torso, legs, label, className, accessories = {} }: MinifigProps) {
   const id = useId()
   const skin = PALETTE.yellow
   const H = PALETTE[hair]
@@ -46,6 +51,9 @@ export function Minifig({ hair, torso, legs, label, className }: MinifigProps) {
       <rect x={30} y={114} width={60} height={12} rx={3} fill={f('legs')} stroke={SEAM} />
       <rect x={56} y={117} width={8} height={9} fill={L.dark} opacity={0.8} />
 
+      {/* held item sits behind the resting arm, so the arm looks like it's holding it */}
+      {accessories.held}
+
       {/* resting arm (her right, viewer's left) */}
       <path d="M42 59 L33 62 L22 101 L32 105 L42 74 Z" fill={T.dark} stroke={SEAM} strokeLinejoin="round" />
       <circle cx={26} cy={111} r={7.5} fill={f('skin')} stroke={SEAM} />
@@ -57,6 +65,7 @@ export function Minifig({ hair, torso, legs, label, className }: MinifigProps) {
       <path d="M52 58 L60 73 L68 58" fill="none" stroke={T.dark} strokeWidth={1.4} />
       <rect x={63} y={84} width={18} height={11} rx={2} fill={PALETTE.yellow.base} stroke={SEAM} strokeWidth={0.8} />
       <text x={72} y={92.2} fontSize={7} fontWeight={800} textAnchor="middle" fill={INK} fontFamily="Archivo, sans-serif">{'</>'}</text>
+      {accessories.torso}
 
       {/* waving arm (her left, viewer's right), pivoting at the shoulder */}
       <g transform="rotate(-118 82 62)">
@@ -64,6 +73,7 @@ export function Minifig({ hair, torso, legs, label, className }: MinifigProps) {
           <path d="M78 59 L87 62 L98 101 L88 105 L78 74 Z" fill={T.base} stroke={SEAM} strokeLinejoin="round" />
           <circle cx={94} cy={111} r={7.5} fill={f('skin')} stroke={SEAM} />
           <circle cx={94} cy={109} r={3} fill={skin.dark} />
+          {accessories.raised}
         </g>
       </g>
 
@@ -93,6 +103,7 @@ export function Minifig({ hair, torso, legs, label, className }: MinifigProps) {
           strokeLinejoin="round"
         />
         <path d="M43 11 C49 7.5 55 6.5 61 6.5" fill="none" stroke={H.light} strokeWidth={2.2} strokeLinecap="round" opacity={0.7} />
+        {accessories.head}
       </g>
     </svg>
   )

@@ -1,0 +1,400 @@
+/* ---------- Minifigure station (Experience) ---------- */
+.station__intro {
+  margin: 0 0 18px;
+  max-width: 62ch;
+  color: var(--ink-soft);
+}
+
+.station {
+  display: grid;
+  grid-template-columns: minmax(0, 360px) 220px minmax(0, 1fr);
+  grid-template-areas: 'tray stage detail';
+  gap: 20px;
+  align-items: start;
+}
+
+/* ---------- Parts tray: molded golden yellow with recessed compartments ---------- */
+.tray {
+  grid-area: tray;
+  --focus: var(--blue-lo);
+  padding: 10px;
+  border-radius: 6px;
+  background: var(--yellow);
+  box-shadow:
+    inset 0 1px 0 var(--yellow-hi),
+    inset 0 -2px 0 var(--yellow-lo),
+    0 0 0 1px var(--outline-strong),
+    0 3px 0 var(--yellow-lo),
+    0 3px 0 1px var(--outline-strong),
+    0 10px 16px -10px var(--shadow);
+}
+
+.tray__label {
+  margin: 2px 4px 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.tray__parts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+/* one compartment: the role (select) on the left, its Add / Remove button on the right */
+.part {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px 8px 8px;
+  border-radius: 5px;
+  background: #e2b641;
+  color: var(--ink);
+  /* a molded recess: shadow at the top, a lit lip at the bottom */
+  box-shadow:
+    inset 0 3px 5px rgba(110, 76, 0, 0.28),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.35);
+  transition: background-color 0.15s;
+}
+
+.part:hover {
+  background: #e8bf52;
+}
+
+.part--selected,
+.part--selected:hover {
+  background: var(--paper-hi);
+  box-shadow:
+    inset 0 0 0 2px var(--blue),
+    0 2px 0 var(--yellow-lo);
+}
+
+.part__select {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* fixed width so switching between Add and Remove never shifts the row */
+.part__action {
+  width: 76px;
+  justify-content: center;
+}
+
+.part__well {
+  display: grid;
+  place-items: center;
+  height: 54px;
+  border-radius: 4px;
+  background: rgba(255, 252, 243, 0.55);
+  box-shadow: inset 0 2px 3px rgba(110, 76, 0, 0.18);
+}
+
+.part--selected .part__well {
+  background: var(--sky-tint);
+  box-shadow: inset 0 0 0 1px var(--sky-edge);
+}
+
+.part__icon {
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+
+.part__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.part__piece {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  margin-bottom: 2px;
+  font-size: 0.78rem;
+  font-weight: 650;
+  color: #5a4300;
+}
+
+.part--selected .part__piece {
+  color: var(--red);
+}
+
+.part__status {
+  padding: 0 6px;
+  border-radius: 3px;
+  background: rgba(255, 252, 243, 0.7);
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+.part__status--on {
+  background: var(--blue);
+  color: #ffffff;
+}
+
+.part__title {
+  font-size: 0.93rem;
+  font-weight: 700;
+}
+
+.part__org {
+  font-size: 0.85rem;
+  font-weight: 550;
+}
+
+.part__dates {
+  font-size: 0.8rem;
+  color: #4a3c10;
+}
+
+.part--selected .part__dates {
+  color: var(--ink-soft);
+}
+
+/* ---------- Assembly platform ---------- */
+.station__stage {
+  grid-area: stage;
+  margin: 0;
+  padding: 12px 12px 16px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background:
+    radial-gradient(circle at 50% 50%, #d3e0f2 0 5.4px, transparent 5.8px) 0 0 / 18px 18px,
+    radial-gradient(circle at 46% 44%, #e4ecf8 0 6px, transparent 6.4px) 0 0 / 18px 18px,
+    radial-gradient(circle at 56% 58%, #b3c6e3 0 6.2px, transparent 6.6px) 0 0 / 18px 18px,
+    #c9d8ee;
+  box-shadow:
+    inset 0 0 0 1px var(--outline),
+    0 0 0 1px var(--outline-strong),
+    0 3px 0 var(--sky-lo),
+    0 3px 0 1px var(--outline-strong);
+}
+
+.stage__head {
+  align-self: stretch;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.stage__label {
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: var(--blue);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  box-shadow: inset 0 1px 0 var(--blue-hi), 0 2px 0 var(--blue-lo);
+}
+
+.stage__count {
+  font-size: 0.78rem;
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.stage__fig {
+  display: block;
+  width: 170px;
+  max-width: 100%;
+  height: auto;
+  margin: 4px 0 -6px;
+  filter: drop-shadow(2px 3px 0 rgba(28, 40, 66, 0.16));
+}
+
+.stage__base {
+  display: block;
+  width: 170px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---------- Parts on the figure ---------- */
+.piece {
+  transition: opacity 0.25s ease, filter 0.25s ease;
+}
+
+/* the selected role's part */
+.piece--active {
+  filter: drop-shadow(0 0 1.5px #ffffff) drop-shadow(0 0 3px var(--yellow));
+}
+
+.piece--snap {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: piece-snap 0.45s cubic-bezier(0.3, 1.45, 0.5, 1) both;
+}
+
+@keyframes piece-snap {
+  from {
+    opacity: 0;
+    transform: translateY(-14px) scale(1.1);
+  }
+  55% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Role detail ---------- */
+.station__detail {
+  grid-area: detail;
+  --focus: var(--blue-lo);
+  padding: 18px 20px 20px;
+  border-radius: 5px;
+  background: var(--paper-hi);
+  box-shadow:
+    0 0 0 1px var(--outline),
+    0 3px 0 var(--sky-edge),
+    0 3px 0 1px var(--outline);
+}
+
+.detail__body--swap {
+  animation: detail-in 0.3s ease-out both;
+}
+
+@keyframes detail-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.detail__kicker {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 650;
+  color: var(--red);
+}
+
+.detail__title {
+  margin: 4px 0 2px;
+  font-size: 1.35rem;
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+.detail__org {
+  margin: 0 0 10px;
+  font-weight: 650;
+  color: var(--ink-soft);
+}
+
+.detail__rows {
+  margin: 0 0 12px;
+  border-top: 2px solid var(--blue);
+}
+
+.detail__rows div {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.92rem;
+}
+
+.detail__rows dt {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  align-self: center;
+}
+
+.detail__rows dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.detail__points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.detail__points li {
+  position: relative;
+  padding-left: 19px;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+/* yellow 1x1 round stud as the bullet */
+.detail__points li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.45em;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--yellow);
+  box-shadow: 0 0 0 1px var(--outline-strong), inset -1px -1.5px 0 var(--yellow-lo);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+  .station {
+    grid-template-columns: minmax(0, 1fr) 210px;
+    grid-template-areas:
+      'tray stage'
+      'detail detail';
+  }
+}
+
+@media (max-width: 640px) {
+  .station {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'stage'
+      'tray'
+      'detail';
+    gap: 16px;
+  }
+
+  .station__stage {
+    padding-bottom: 12px;
+  }
+
+  .stage__fig,
+  .stage__base {
+    width: 132px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .piece,
+  .piece--snap,
+  .detail__body--swap {
+    animation: none;
+    transition: none;
+  }
+}

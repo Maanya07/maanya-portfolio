@@ -5,15 +5,17 @@
 // - Phone number is intentionally left off the site (it is still inside the résumé PDF).
 
 import type { BrickColor } from '../components/bricks/palette'
-import type { SceneKey } from '../components/bricks/scenes'
+import type { PieceKey } from '../components/station/pieces'
 
 export interface Role {
   company: string
   title: string
   location: string
   dates: string
-  icon: SceneKey
-  iconLabel: string
+  /** The minifigure part this role adds in the Experience station (art lives in components/station/pieces.tsx) */
+  piece: PieceKey
+  /** Visible name of that part */
+  pieceName: string
   points: string[]
 }
 
@@ -48,8 +50,8 @@ export const experience: Role[] = [
     title: 'Peer Tutor and AI Initiative Developer',
     location: 'Boston, MA',
     dates: 'Mar 2026 – Present',
-    icon: 'chalkboard',
-    iconLabel: 'Brick chalkboard with an integral sign',
+    piece: 'notebook',
+    pieceName: 'Calculus notebook',
     points: [
       'Created a tutor resource assistant in Claude Projects, organizing materials and policies from 10+ documents into an interactive interface for new tutors.',
       'Updated tutor training content across 3 topics, modernizing outdated guidance and adding standards on ethical AI use.',
@@ -61,8 +63,8 @@ export const experience: Role[] = [
     title: 'Data Analytics Intern',
     location: 'Bengaluru, India',
     dates: 'May 2025 – Aug 2025',
-    icon: 'dashboard',
-    iconLabel: 'Brick monitor showing a dashboard',
+    piece: 'chart',
+    pieceName: 'Chart tile',
     points: [
       'Engineered an ESG perception chatbot using Ollama that synthesized compliance data from 400+ external sources, automating quarterly reporting workflows.',
       'Designed and built a Power BI dashboard to track seed placement, sales trends, and regional performance across 16 states and 100+ districts, enabling data-driven harvest decisions for FY25-26.',
@@ -74,8 +76,8 @@ export const experience: Role[] = [
     title: 'Knowledge Institute Intern',
     location: 'Bengaluru, India',
     dates: 'May 2024 – Jun 2024',
-    icon: 'interview',
-    iconLabel: 'Two brick speech bubbles',
+    piece: 'headset',
+    pieceName: 'Interview headset',
     points: [
       'Interviewed 15+ incubators, CSR teams, and founders to identify execution challenges, gaining first-hand exposure to client consulting and stakeholder management.',
       'Co-authored monthly knowledge publications encompassing CSR trends, incubator challenges, and social enterprise practices to inform client strategy.',
@@ -87,8 +89,8 @@ export const experience: Role[] = [
     title: 'Digital Operations Intern',
     location: 'Manila, Philippines',
     dates: 'May 2023',
-    icon: 'calendar',
-    iconLabel: 'Brick calendar with a check mark',
+    piece: 'lanyard',
+    pieceName: 'Event lanyard',
     points: [
       'Automated event coordination workflows for 200+ attendee company events reducing manual scheduling and communication overhead for recurring processes.',
       'Designed digital recruitment materials and managed applicant tracking systems for hiring across 5+ countries.',

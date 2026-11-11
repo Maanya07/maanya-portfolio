@@ -4,7 +4,7 @@ import { PALETTE as C, P, SEAM, U } from './palette'
 
 /**
  * Every illustration on the site, built from Brick parts.
- * Project scenes are 12 studs x 18 plates; role icons are 4 x 10.
+ * Project scenes are 12 studs x 18 plates.
  */
 export type SceneKey =
   | 'assistant'
@@ -13,10 +13,6 @@ export type SceneKey =
   | 'hoop'
   | 'gameTable'
   | 'satellite'
-  | 'chalkboard'
-  | 'dashboard'
-  | 'interview'
-  | 'calendar'
 
 interface SceneDef {
   cols: number
@@ -257,90 +253,6 @@ const SCENES: Record<SceneKey, SceneDef> = {
         <path d="M108 50 Q100 32 118 26 Q122 42 108 50 Z" fill={C.lightGray.light} stroke={SEAM} strokeWidth={1} />
         <line x1={112} y1={40} x2={104} y2={30} stroke={C.lightGray.dark} strokeWidth={1.2} />
         <circle cx={128} cy={70} r={3} fill={C.red.base} />
-      </g>
-    ),
-  },
-
-  /* Peer tutoring: chalkboard with an integral */
-  chalkboard: {
-    cols: 4,
-    rows: 10,
-    bricks: [
-      { x: 0, y: 9, w: 4, h: 1, c: 'darkGray' },
-      { x: 1.5, y: 8, w: 1, h: 1, c: 'brown', studs: false },
-      { x: 0, y: 1, w: 4, h: 7, c: 'green', studs: false },
-      { x: 0, y: 0, w: 4, h: 1, c: 'brown' },
-    ],
-    decor: (
-      <g fontFamily="Georgia, serif" fill={C.white.light}>
-        <text x={22} y={46} fontSize={30} fontStyle="italic" opacity={0.92}>∫</text>
-        <text x={36} y={40} fontSize={12} fontStyle="italic" opacity={0.9}>dx</text>
-        <rect x={50} y={52} width={14} height={2.5} rx={1} fill={C.yellow.base} />
-      </g>
-    ),
-  },
-
-  /* Data analytics: monitor with a dashboard */
-  dashboard: {
-    cols: 4,
-    rows: 10,
-    bricks: [
-      { x: 0.5, y: 9, w: 3, h: 1, c: 'lightGray' },
-      { x: 1.5, y: 7, w: 1, h: 2, c: 'darkGray', studs: false },
-      { x: 0, y: 1, w: 4, h: 6, c: 'black' },
-    ],
-    decor: (
-      <g>
-        <rect x={5} y={13} width={70} height={38} rx={1.5} fill="#F4F7FB" />
-        <rect x={12} y={34} width={9} height={13} fill={C.blue.base} />
-        <rect x={25} y={26} width={9} height={21} fill={C.red.base} />
-        <rect x={38} y={20} width={9} height={27} fill={C.yellow.base} />
-        <circle cx={62} cy={30} r={8} fill={C.blue.light} />
-        <path d="M62 30 L62 22 A8 8 0 0 1 69 34 Z" fill={C.yellow.base} />
-      </g>
-    ),
-  },
-
-  /* Consulting research: two speech bubbles */
-  interview: {
-    cols: 4,
-    rows: 10,
-    bricks: [
-      { x: 0, y: 1, w: 3, h: 4, c: 'white' },
-      { x: 1, y: 5.5, w: 3, h: 4, c: 'blue', studs: false },
-    ],
-    decor: (
-      <g>
-        <path d="M10 40 L6 48 L18 40 Z" fill={C.white.base} stroke={SEAM} strokeWidth={1} />
-        {[0, 1, 2].map((i) => (
-          <circle key={i} cx={18 + i * 12} cy={24} r={3} fill={C.darkGray.base} />
-        ))}
-        <path d="M68 76 L74 84 L62 76 Z" fill={C.blue.base} stroke={SEAM} strokeWidth={1} />
-        <rect x={28} y={56} width={36} height={3} rx={1.5} fill={C.white.light} />
-        <rect x={28} y={63} width={26} height={3} rx={1.5} fill={C.white.light} opacity={0.7} />
-      </g>
-    ),
-  },
-
-  /* Event operations: calendar with a check */
-  calendar: {
-    cols: 4,
-    rows: 10,
-    bricks: [
-      { x: 0, y: 4, w: 4, h: 6, c: 'white', studs: false },
-      { x: 0, y: 2, w: 4, h: 2, c: 'red' },
-    ],
-    decor: (
-      <g>
-        {[18, 62].map((x) => (
-          <rect key={x} x={x - 2} y={6} width={4} height={14} rx={2} fill={C.darkGray.base} />
-        ))}
-        {[0, 1, 2].map((r) =>
-          [0, 1, 2, 3].map((c2) => (
-            <rect key={`${r}-${c2}`} x={10 + c2 * 16} y={40 + r * 11} width={10} height={6} fill={C.lightGray.light} />
-          )),
-        )}
-        <path d="M44 56 L52 64 L68 44" fill="none" stroke={C.blue.base} strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" />
       </g>
     ),
   },
