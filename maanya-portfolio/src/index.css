@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+
+:root {
+  --cream: #fbf5e6;
+  --enamel: #f3e9d2;
+  --enamel-dark: #e2d4b4;
+  --red: #c8342b;
+  --red-dark: #8f201a;
+  --chrome: #b9b4a8;
+  --ink: #2b2420;
+  --ink-soft: #6b5f55;
+  --paper: #fffdf6;
+  --paper-edge: #ece3cf;
+  --blue: #2f6db5;
+
+  --font-display: 'Lilita One', 'Arial Rounded MT Bold', system-ui, sans-serif;
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  color-scheme: light;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--cream);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 1px 1px, rgba(43, 36, 32, 0.08) 1px, transparent 0) 0 0 / 18px 18px,
+    var(--cream);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

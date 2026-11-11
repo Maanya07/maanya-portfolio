@@ -1,0 +1,138 @@
+.page {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 32px 16px 64px;
+}
+
+.intro {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.intro h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 6vw, 3rem);
+  color: var(--red);
+  margin: 0 0 4px;
+}
+
+.intro p {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+  justify-items: center;
+}
+
+.kit {
+  width: 100%;
+  display: grid;
+  gap: 18px;
+  animation: kit-in 0.35s ease-out 0.6s both;
+}
+
+.kit--empty {
+  min-height: 240px;
+  place-items: center;
+  border: 3px dashed var(--enamel-dark);
+  border-radius: 14px;
+  color: var(--ink-soft);
+  animation: none;
+}
+
+@keyframes kit-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.kit__box {
+  position: relative;
+  background: var(--cream);
+  border: 4px solid var(--ink);
+  border-radius: 12px;
+  padding: 20px 24px 16px;
+  box-shadow: 6px 6px 0 var(--red);
+}
+
+.kit__slot {
+  position: absolute;
+  top: -14px;
+  left: 16px;
+  background: var(--red);
+  color: var(--cream);
+  font-family: var(--font-display);
+  padding: 2px 10px;
+  border-radius: 6px;
+}
+
+.brick-art {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.kit__summary h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.kit__tagline {
+  margin: 2px 0 10px;
+  color: var(--red);
+  font-weight: 700;
+}
+
+.kit__summary p {
+  line-height: 1.55;
+}
+
+.kit__tech,
+.kit__links {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.kit__tech li {
+  background: var(--enamel-dark);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 0.85rem;
+}
+
+.kit__links a {
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.kit__soon {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 760px) {
+  .stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kit {
+    animation: none;
+  }
+}
