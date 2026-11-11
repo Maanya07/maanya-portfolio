@@ -27,7 +27,7 @@ export function VendingMachine({ projects, selectedId, onSelect }: VendingMachin
   return (
     <div className="vm">
       <div className="vm__roof studs">
-        <span className="vm__marquee">Kit-O-Matic</span>
+        <span className="vm__marquee">Brick Drop</span>
         <span className="vm__sub">Press a slot · get a kit</span>
       </div>
 

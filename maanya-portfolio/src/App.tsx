@@ -31,6 +31,14 @@ function App() {
     }
   }
 
+  function selectFromInventory(id: string) {
+    setSelectedId(id)
+    setPressed(false)
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    kitRef.current?.focus({ preventScroll: true })
+    kitRef.current?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
+  }
+
   return (
     <>
       <header className="topbar">
@@ -61,13 +69,13 @@ function App() {
         <Panel id="projects" label="Projects" meta={<span>Press a slot to dispense a kit</span>}>
           <div className="projects">
             <VendingMachine projects={projects} selectedId={selectedId} onSelect={select} />
-            <div ref={kitRef} className="projects__kit">
+            <div ref={kitRef} className="projects__kit" tabIndex={-1} role="region" aria-label="Selected project kit">
               <Kit key={project.id} project={project} animate={pressed} />
             </div>
           </div>
         </Panel>
 
-        <Inventory />
+        <Inventory onOpenProject={selectFromInventory} />
       </main>
 
       <footer className="footer">

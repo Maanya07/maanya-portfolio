@@ -1,0 +1,56 @@
+.inventory__hint {
+  margin: 0 0 12px;
+}
+
+.inventory__chips li:has(.inventory__part) {
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.inventory__part,
+.inventory__kit {
+  font: inherit;
+  cursor: pointer;
+}
+
+.inventory__part {
+  padding: 3px 9px;
+  border: 1px solid var(--blue);
+  border-radius: 4px;
+  color: var(--blue-lo);
+  background: var(--paper-hi);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.inventory__part[aria-expanded='true'] {
+  color: white;
+  background: var(--blue-lo);
+}
+
+.inventory__kits {
+  margin-top: 12px;
+  border-top: 1px solid var(--outline);
+  padding-top: 9px;
+}
+
+.inventory__kits p {
+  margin: 0 0 5px;
+}
+
+.inventory__kits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.inventory__kit {
+  padding: 4px 0;
+  border: 0;
+  color: var(--blue-lo);
+  background: transparent;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

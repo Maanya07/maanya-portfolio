@@ -6,7 +6,7 @@
 // "Details coming soon" in the built site). Nothing here is invented.
 //
 // MISSING / TO CONFIRM  (search this file for "MISSING")
-// - Links: none are set. Jag AI and Jarvis have GitHub remotes (noted inline); add the URL only if the repo is public.
+// - Jarvis is private. Finance Tracker, NBA Stat Models, GameNite, and Solar Storm still need shareable source links.
 // - "The Idea" (why you built it) for every project, and outcomes for Jag AI, Jarvis, Finance Tracker.
 // - Jarvis: not on the résumé. Details come from brain.py; dates are from commit history (confirm).
 // - GameNite and Solar Storm Classifier: not on the résumé and no repo found: no summary, dates, or stack yet.
@@ -67,8 +67,7 @@ export const projects: Project[] = [
     scene: 'assistant',
     sceneLabel: 'Brick desk computer showing an email and its summary, next to a desk calendar',
     boxColor: 'blue',
-    // MISSING: remote is github.com/Maanya07/jag-ai. Paste it into url if the repo is public.
-    links: [{ label: 'Source code', url: '' }],
+    links: [{ label: 'GitHub repository', url: 'https://github.com/Maanya07/jag-ai' }],
     booklet: [
       {
         title: 'The Idea',
@@ -109,8 +108,7 @@ export const projects: Project[] = [
     scene: 'voice',
     sceneLabel: 'Brick studio microphone on a stand, with sound waves and a speech bubble',
     boxColor: 'sky',
-    // MISSING: remote is github.com/Maanya07/jarvis_local. Paste it into url if the repo is public.
-    links: [{ label: 'Source code', url: '' }],
+    links: [], // The Jarvis repo is private.
     booklet: [
       {
         title: 'The Idea',
@@ -234,5 +232,64 @@ export const projects: Project[] = [
     links: [],
     booklet: [],
     missing: 'Not on the résumé: summary, dates, tech stack, links, and booklet pages.',
+  },
+  {
+    id: 'prismlocal',
+    slot: 'C1',
+    name: 'PrismLocal',
+    subtitle: 'On-device memory assistant',
+    status: 'ready',
+    period: 'Nov 2026',
+    location: null,
+    summary:
+      'A HACK1984 team project that turns screenshots and voice notes into useful next steps. A local model interprets each capture, and the app shows what information was sent to web search.',
+    tech: ['Python', 'FastAPI', 'React', 'TypeScript', 'Ollama', 'Tavily', 'Exa'],
+    scene: 'assistant',
+    sceneLabel: 'Brick workstation representing the PrismLocal capture and search interface',
+    boxColor: 'sky',
+    links: [{ label: 'Team repository', url: 'https://github.com/yashkava05/prismlocal-hack1984' }],
+    booklet: [
+      {
+        title: 'The Idea',
+        paragraphs: ['Turn the things people save for later into next steps they can act on, while keeping the original captures on the device.'],
+      },
+      {
+        title: 'How It Works',
+        paragraphs: ['Our team built a workflow that interprets captures locally, creates short web search queries from public details, and returns useful links or actions. A privacy receipt shows what was sent out.'],
+      },
+      {
+        title: 'The Result',
+        paragraphs: ['The hackathon prototype supports screenshot and voice input, action cards, and a mode that keeps processing entirely offline.'],
+      },
+    ],
+  },
+  {
+    id: 'java-chess',
+    slot: 'C2',
+    name: 'Java Chess',
+    subtitle: 'Desktop chess prototype',
+    status: 'ready',
+    period: 'Feb 2026',
+    location: null,
+    summary: 'A desktop chess prototype with a clickable board and an object-oriented model for piece movement.',
+    tech: ['Java', 'Swing', 'Object-Oriented Design'],
+    scene: 'gameTable',
+    sceneLabel: 'Brick tabletop with game pieces',
+    boxColor: 'green',
+    links: [{ label: 'Source code', url: 'https://github.com/Maanya07/chess' }],
+    booklet: [
+      {
+        title: 'The Idea',
+        paragraphs: ['Practice object-oriented design by turning piece movement rules into an interactive chess board.'],
+      },
+      {
+        title: 'What I Built',
+        paragraphs: ['Separated the board and piece rules from the Swing interface. The prototype supports click-to-move interaction and includes move validation for knights and rooks.'],
+      },
+      {
+        title: 'The Result',
+        paragraphs: ['A playable interface for exploring piece movement. Full chess rules and an AI opponent are outside the current prototype.'],
+      },
+    ],
   },
 ]
